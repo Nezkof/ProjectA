@@ -1,0 +1,27 @@
+.headerWrapper {
+   background-color: var(--base-black);
+   padding: 0 var(--general-side-padding);
+}
+
+.header {
+   display: flex;
+   justify-content: space-between;
+
+   padding: 0.9375em 1.172vw 0.9375em 1.172vw;
+
+   background-color: var(--base-black);
+
+   border-radius: 0 0 1.125em 1.125em;
+   box-shadow: var(--shadow);
+}
+
+.header_pageName,
+.header_userInfo {
+   display: inherit;
+   align-items: center;
+   gap: 0.781vw;
+}
+
+.header_dateTime {
+   font-size: 0.6875em;
+}

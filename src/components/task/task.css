@@ -1,0 +1,142 @@
+.task_container {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+
+   background-color: var(--darker-black);
+
+   font-size: 0.75em;
+   padding: 0.7em 0.664vw;
+   border-radius: 0.5em;
+}
+
+.task_leftSide,
+.task_rightSide {
+   display: inherit;
+   gap: 0.7em;
+}
+
+.task_title {
+   transition: all 0.3s ease;
+}
+
+.done {
+   text-decoration-line: line-through;
+   filter: brightness(70%);
+}
+
+.task_checkbox {
+   position: relative;
+   margin: 0;
+   width: 1.8em;
+   height: 1.8em;
+   border-radius: 0.37em;
+   vertical-align: middle;
+   border: 1px solid var(--base-yellow);
+   background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(0, 0, 0, 0.01) 100%
+   );
+   appearance: none;
+   -webkit-appearance: none;
+   outline: none;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
+
+.task_checkbox:hover {
+   border: 1px solid var(--base-yellow);
+   background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0) 0%,
+      #ffffa925 100%
+   );
+}
+
+.task_checkbox:checked {
+   background: #ffff0038;
+}
+
+.task_checkbox:checked::before {
+   position: absolute;
+   top: 0;
+   right: 0;
+   left: 0;
+   bottom: 0;
+   content: "";
+   background-image: url("/public/task/checkbox-icon.svg");
+   background-size: cover;
+   background-repeat: no-repeat;
+}
+
+.task_button {
+   width: 24px;
+   height: 24px;
+   background-size: contain;
+   border: none;
+   cursor: pointer;
+   transition: all 0.1s ease-out;
+   border-radius: 0.37em;
+}
+
+.task_deleteBtn {
+   background: url("/public/task/delete-icon.svg") no-repeat center center;
+}
+
+.task_date {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   font-size: 0.75em;
+   gap: 0.4em;
+   transition: all 0.3s ease;
+}
+
+.task_calendarBtn {
+   background: url("/public/task/calendar-icon.svg") no-repeat center center;
+}
+
+.task_prioritySelection {
+   display: flex;
+   gap: 5px;
+   align-items: center;
+}
+
+.task_priorityGreen {
+   box-shadow: var(--shadow);
+   background-color: var(--priority-green);
+}
+
+.task_priorityYellow {
+   box-shadow: var(--shadow);
+   background-color: var(--priority-yellow);
+}
+
+.task_priorityRed {
+   box-shadow: var(--shadow);
+   background-color: var(--priority-red);
+}
+
+.task_priorityNull {
+   box-shadow: var(--shadow);
+   background-color: var(--highlight-black);
+}
+
+.task_dateTimeInput {
+   font-family: inherit;
+   font-size: inherit;
+   outline: none;
+   border: none;
+   color: white;
+   color-scheme: dark;
+}
+
+.task_dateTimeSpan:hover,
+.task_dateTimeInput:hover {
+   cursor: pointer;
+}
+
+.task_button:hover {
+   filter: brightness(80%);
+}
