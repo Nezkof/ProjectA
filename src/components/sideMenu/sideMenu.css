@@ -1,33 +1,32 @@
-.tasks_container {
+.sideMenuContainer {
    display: flex;
    flex-direction: column;
+   gap: 0.3125em;
    background-color: var(--base-black);
-   border-radius: 0.46em;
    box-shadow: var(--box-shadow);
-   gap: 0.586vw;
-   padding: 0.93em;
-   flex-grow: 1;
+   padding: 0.9375em 0.938vw;
+   border-radius: 0.46em;
 }
 
-.tasks_createBtn {
+.sideMenu_addBtn {
    font-family: inherit;
+   font-size: 0.4375em;
    display: flex;
    align-items: center;
-   gap: 0.2em;
-   background-color: var(--base-yellow);
+   gap: 0.35em;
+   border-radius: 0.35em;
    border: none;
    outline: none;
-   border-radius: 0.83em;
-   padding: 0.6em 0.85em;
-   font-size: 0.5625em;
-   width: auto;
-   align-self: flex-end;
+   background-color: var(--base-yellow);
+   padding: 0.234vw 0.35em;
    transition: all 0.3s ease-out;
+   width: 9.752vw;
+   box-shadow: var(--box-shadow);
    vertical-align: center;
    line-height: 1.2;
 }
 
-.tasks_createBtn:hover {
+.sideMenu_addBtn:hover {
    cursor: pointer;
    background-color: var(--highlight-yellow);
 }

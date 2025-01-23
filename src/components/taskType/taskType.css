@@ -1,0 +1,35 @@
+.taskTypeBtn {
+   color: white;
+   font-family: inherit;
+   font-size: 0.4375em;
+   vertical-align: center;
+   line-height: 1.2;
+   display: flex;
+   align-items: center;
+   gap: 0.35em;
+   border-radius: 0.35em;
+   border: none;
+   outline: none;
+   background-color: var(--darker-black);
+   box-shadow: var(--box-shadow);
+   padding: 0.234vw 0.35em;
+   transition: all 0.3s ease-out;
+   width: 9.752vw;
+}
+
+.taskTypeBtn:hover {
+   cursor: pointer;
+   background-color: var(--highlight-black);
+}
+
+.taskTypeBtn_deleteIcon {
+   margin-left: auto;
+}
+
+.taskTypeBtn_titleInput {
+   font-family: inherit;
+   font-size: inherit;
+   outline: none;
+   border: none;
+   color-scheme: dark;
+}

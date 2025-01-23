@@ -14,8 +14,8 @@ const Header = () => {
    }, []);
 
    return (
-      <header className="headerWrapper">
-         <section className="header">
+      <header className="header">
+         <section className="header_content">
             <div className="header_pageName">
                <img src="logo.svg" alt="logo_img" />
                <span>Pagename</span>
