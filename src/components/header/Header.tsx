@@ -18,7 +18,7 @@ const Header = () => {
          <section className="header_content">
             <div className="header_pageName">
                <img src="logo.svg" alt="logo_img" />
-               <span>Pagename</span>
+               <span>do/next</span>
             </div>
 
             <div className="header_userInfo">

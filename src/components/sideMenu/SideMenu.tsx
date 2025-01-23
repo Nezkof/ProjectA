@@ -16,12 +16,12 @@ const SideMenu = () => {
       tasksSections.map((taskId) => <TaskType key={taskId} />);
 
    return (
-      <aside className="sideMenuContainer">
-         {renderTasksTypes()}
+      <aside className="sideMenu_container" id="sideMenu">
          <button className="sideMenu_addBtn" onClick={addTaskType}>
             <img src={addSectionIcon} alt="add_section" />
             Add
          </button>
+         <div className="sideMenu_wrapper">{renderTasksTypes()}</div>
       </aside>
    );
 };

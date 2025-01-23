@@ -36,12 +36,12 @@ const TaskType = () => {
    }, []);
 
    return (
-      <button className="taskTypeBtn">
+      <button className="tSectionBtn">
          <img src={selectSectionIcon} alt="select_section" />
          {isTitleChanging ? (
             <input
                ref={titleInputRef}
-               className="taskTypeBtn_titleInput"
+               className="tSectionBtn_titleInput"
                type="text"
                value={sectionTitle}
                onChange={handleTitleChange}
@@ -52,7 +52,7 @@ const TaskType = () => {
          )}
 
          <img
-            className="taskTypeBtn_deleteIcon"
+            className="tSectionBtn_deleteIcon"
             src={deleteSectionIcon}
             alt="delete_section"
          />

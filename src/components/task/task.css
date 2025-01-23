@@ -2,11 +2,12 @@
    display: flex;
    align-items: center;
    justify-content: space-between;
+   flex-wrap: wrap;
 
    background-color: var(--darker-black);
 
    font-size: 0.75em;
-   padding: 0.7em 0.664vw;
+   padding: 0.7em;
    border-radius: 0.5em;
 }
 
@@ -20,7 +21,7 @@
    transition: all 0.3s ease;
 }
 
-.done {
+.task_done {
    text-decoration-line: line-through;
    filter: brightness(70%);
 }
@@ -139,4 +140,14 @@
 
 .task_button:hover {
    filter: brightness(80%);
+}
+
+@media (max-width: 768px) {
+   .task_container {
+      gap: 5vw;
+   }
+
+   .task_rightSide {
+      margin-left: auto;
+   }
 }

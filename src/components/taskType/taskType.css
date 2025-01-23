@@ -1,4 +1,4 @@
-.taskTypeBtn {
+.tSectionBtn {
    color: white;
    font-family: inherit;
    font-size: 0.4375em;
@@ -14,22 +14,24 @@
    box-shadow: var(--box-shadow);
    padding: 0.234vw 0.35em;
    transition: all 0.3s ease-out;
-   width: 9.752vw;
 }
 
-.taskTypeBtn:hover {
+.tSectionBtn:hover {
    cursor: pointer;
    background-color: var(--highlight-black);
 }
 
-.taskTypeBtn_deleteIcon {
+.tSectionBtn_deleteIcon {
    margin-left: auto;
 }
 
-.taskTypeBtn_titleInput {
+.tSectionBtn_titleInput {
    font-family: inherit;
    font-size: inherit;
    outline: none;
    border: none;
    color-scheme: dark;
+}
+
+@media (max-width: 1024px) {
 }
