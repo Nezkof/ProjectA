@@ -2,21 +2,29 @@
 
 :root {
    --base-black: #121212;
-   --base-yellow: #ffff7b;
-   --highlight-yellow: #ffffa9;
+   --base-yellow: #ffffa9;
+   --highlight-yellow: #e4e597;
    --highlight-black: #282828;
-
    --darker-black: #101010;
-
-   --shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
-
-   --header-height: 8.781vh;
+   --checkbox-color: #ffff7b;
 
    --priority-green: #52ff3f;
    --priority-yellow: #ffff42;
    --priority-red: #ff623e;
 
-   --general-side-padding: 10vw;
+   --box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
+
+   --general-sides-padding: 10vw;
+   --header-height: 3.625em;
+   --header-main-gap: 16px;
+   --main-height: calc(
+      100vh - var(--header-height) - var(--header-main-gap) / 2
+   );
+
+   /* TODO 
+      UNUSED
+    */
+   --main-padding: 1.406vw;
 }
 
 body {

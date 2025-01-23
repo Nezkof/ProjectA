@@ -1,16 +1,23 @@
-.mainWrapper {
+.main {
    background-color: var(--base-black);
-   padding: 8px var(--general-side-padding) 0 var(--general-side-padding);
+   padding: calc(var(--header-main-gap) / 2) var(--general-sides-padding) 0
+      var(--general-sides-padding);
+
+   display: flex;
+   flex-direction: row;
+   gap: 0.742vw;
+   box-sizing: border-box;
+   height: var(--main-height);
 }
 
-.main_container {
+.main_content {
    display: flex;
-   flex-direction: column;
-   gap: 8.6em;
-   padding: 0.78125em 0.977vw;
+   flex-direction: row;
+   gap: 0.742vw;
+   padding: var(--main-padding);
    border-radius: 1.125em 1.125em 0 0;
    background-color: var(--base-black);
-   height: calc(100vh - var(--header-height) - 8px);
-   box-shadow: var(--shadow);
+   box-shadow: var(--box-shadow);
    box-sizing: border-box;
+   height: var(--main-height);
 }

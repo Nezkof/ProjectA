@@ -1,9 +1,9 @@
-.headerWrapper {
+.header {
    background-color: var(--base-black);
-   padding: 0 var(--general-side-padding);
+   padding: 0 var(--general-sides-padding) calc(var(--header-main-gap) / 2);
 }
 
-.header {
+.header_content {
    display: flex;
    justify-content: space-between;
 
@@ -11,8 +11,8 @@
 
    background-color: var(--base-black);
 
-   border-radius: 0 0 1.125em 1.125em;
-   box-shadow: var(--shadow);
+   border-radius: 0 0 0.46em 0.46em;
+   box-shadow: var(--box-shadow);
 }
 
 .header_pageName,

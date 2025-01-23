@@ -32,7 +32,7 @@
    height: 1.8em;
    border-radius: 0.37em;
    vertical-align: middle;
-   border: 1px solid var(--base-yellow);
+   border: 1px solid var(--checkbox-color);
    background: radial-gradient(
       circle,
       rgba(255, 255, 255, 0) 0%,
@@ -46,7 +46,7 @@
 }
 
 .task_checkbox:hover {
-   border: 1px solid var(--base-yellow);
+   border: 1px solid var(--checkbox-color);
    background: radial-gradient(
       circle,
       rgba(255, 255, 255, 0) 0%,
@@ -104,22 +104,22 @@
 }
 
 .task_priorityGreen {
-   box-shadow: var(--shadow);
+   box-shadow: var(--box-shadow);
    background-color: var(--priority-green);
 }
 
 .task_priorityYellow {
-   box-shadow: var(--shadow);
+   box-shadow: var(--box-shadow);
    background-color: var(--priority-yellow);
 }
 
 .task_priorityRed {
-   box-shadow: var(--shadow);
+   box-shadow: var(--box-shadow);
    background-color: var(--priority-red);
 }
 
 .task_priorityNull {
-   box-shadow: var(--shadow);
+   box-shadow: var(--box-shadow);
    background-color: var(--highlight-black);
 }
 
