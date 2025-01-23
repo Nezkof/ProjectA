@@ -1,17 +1,16 @@
 .header {
    background-color: var(--base-black);
-   padding: 0 var(--general-sides-padding) calc(var(--header-main-gap) / 2);
+   padding-left: var(--general-sides-padding);
+   padding-right: var(--general-sides-padding);
+   padding-bottom: calc(var(--header-main-gap) / 2);
 }
 
 .header_content {
    display: flex;
    justify-content: space-between;
-
    padding: 0.9375em 1.172vw 0.9375em 1.172vw;
-
-   background-color: var(--base-black);
-
    border-radius: 0 0 0.46em 0.46em;
+   background-color: var(--base-black);
    box-shadow: var(--box-shadow);
 }
 
@@ -19,9 +18,27 @@
 .header_userInfo {
    display: inherit;
    align-items: center;
-   gap: 0.781vw;
+   gap: 20px;
 }
 
 .header_dateTime {
    font-size: 0.6875em;
+}
+
+@media (max-width: 1440px) {
+   .header {
+      padding-left: 2vw;
+      padding-right: 2vw;
+   }
+
+   .header_content {
+      padding-left: 20px;
+      padding-right: 20px;
+   }
+}
+
+@media (max-width: 768px) {
+   .header_pageName span {
+      display: none;
+   }
 }

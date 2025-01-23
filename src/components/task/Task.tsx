@@ -77,7 +77,7 @@ const Task = () => {
                type="checkbox"
                onClick={() => setIsDone(!isDone)}
             />
-            <h2 className={`${isDone ? "done" : ""} task_title`}>
+            <h2 className={`${isDone ? "task_done" : ""} task_title`}>
                Do something
             </h2>
          </div>
@@ -89,11 +89,11 @@ const Task = () => {
                   type="button"
                   onClick={togglePriorityMenu}
                   className={`${
-                     isDone ? "done" : ""
+                     isDone ? "task_done" : ""
                   } task_button task_priority${taskPriority}`}
                ></button>
             </div>
-            <div className={`${isDone ? "done" : ""} task_date`}>
+            <div className={`${isDone ? "task_done" : ""} task_date`}>
                {isDateEditing ? (
                   <input
                      ref={dateInputRef}

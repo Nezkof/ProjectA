@@ -1,15 +1,18 @@
 .main {
-   background-color: var(--base-black);
-   padding: calc(var(--header-main-gap) / 2) var(--general-sides-padding) 0
-      var(--general-sides-padding);
-
    display: flex;
    flex-direction: row;
-   gap: 0.742vw;
    box-sizing: border-box;
+   gap: 0.742vw;
    height: var(--main-height);
+   background-color: var(--base-black);
+   padding-top: calc(var(--header-main-gap) / 2);
+   padding-left: var(--general-sides-padding);
+   padding-right: var(--general-sides-padding);
 }
 
+/* TODO
+   UNUSED
+*/
 .main_content {
    display: flex;
    flex-direction: row;
@@ -20,4 +23,18 @@
    box-shadow: var(--box-shadow);
    box-sizing: border-box;
    height: var(--main-height);
+}
+
+@media (max-width: 1440px) {
+   .main {
+      padding-left: 2vw;
+      padding-right: 2vw;
+   }
+}
+
+@media (max-width: 768px) {
+   .main {
+      flex-direction: column-reverse;
+      gap: 1.5vw;
+   }
 }
