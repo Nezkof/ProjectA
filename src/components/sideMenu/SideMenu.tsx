@@ -8,12 +8,29 @@ const SideMenu = () => {
    const [tasksSections, setTaskSections] = useState<string[]>([]);
 
    const addTaskType = () => {
-      const newTaskTypeID = `taskType-${Date.now()}`;
-      setTaskSections((prevTaskTypes) => [...prevTaskTypes, newTaskTypeID]);
+      const newTaskSectionID = `${Date.now()}`;
+      setTaskSections((prevTasksSections) => [
+         ...prevTasksSections,
+         newTaskSectionID,
+      ]);
+   };
+
+   const removeTaskSection = (tSectionToFindId: string): void => {
+      setTaskSections((prevTasksSections) =>
+         prevTasksSections.filter(
+            (tSectionId) => tSectionId !== tSectionToFindId
+         )
+      );
    };
 
    const renderTasksTypes = () =>
-      tasksSections.map((taskId) => <TaskType key={taskId} />);
+      tasksSections.map((tSectionId) => (
+         <TaskType
+            key={tSectionId}
+            tSectionId={tSectionId}
+            removeTSection={removeTaskSection}
+         />
+      ));
 
    return (
       <aside className="sideMenu_container" id="sideMenu">

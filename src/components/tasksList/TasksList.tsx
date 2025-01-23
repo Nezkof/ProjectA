@@ -14,11 +14,20 @@ const TasksList = ({
    const [tasks, setTasks] = useState<string[]>([]);
 
    const addTask = () => {
-      const newTaskId = `task-${Date.now()}`;
+      const newTaskId = `${Date.now()}`;
       setTasks((prevTasks) => [...prevTasks, newTaskId]);
    };
 
-   const renderTasks = () => tasks.map((taskId) => <Task key={taskId} />);
+   const removeTask = (taskToRemoveId: string) => {
+      setTasks((prevTasks) =>
+         prevTasks.filter((taskId) => taskId !== taskToRemoveId)
+      );
+   };
+
+   const renderTasks = () =>
+      tasks.map((taskId) => (
+         <Task key={taskId} taskId={taskId} removeTask={removeTask} />
+      ));
 
    return (
       <section className="tasks_container">

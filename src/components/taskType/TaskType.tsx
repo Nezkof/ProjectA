@@ -4,7 +4,15 @@ import deleteSectionIcon from "../../../public/sideMenu/deleteSection-icon.svg";
 import selectSectionIcon from "../../../public/sideMenu/selectSection-icon.svg";
 import { useEffect, useRef, useState } from "react";
 
-const TaskType = () => {
+interface TaskSectionProps {
+   tSectionId: string;
+   removeTSection: (tSectionId: string) => void;
+}
+
+const TaskType: React.FC<TaskSectionProps> = ({
+   tSectionId,
+   removeTSection,
+}) => {
    const [sectionTitle, setSectionTitle] = useState("name");
    const [isTitleChanging, setTitleChanging] = useState(false);
    const titleSpanRef = useRef<HTMLSpanElement | null>(null);
@@ -55,6 +63,7 @@ const TaskType = () => {
             className="tSectionBtn_deleteIcon"
             src={deleteSectionIcon}
             alt="delete_section"
+            onClick={() => removeTSection(tSectionId)}
          />
       </button>
    );

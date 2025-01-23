@@ -1,15 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import "./task.css";
 
-const Task = () => {
+interface TaskProps {
+   taskId: string;
+   removeTask: (taskId: string) => void;
+}
+
+const Task: React.FC<TaskProps> = ({ taskId, removeTask }) => {
    const [isPriorityMenuOpen, setPriorityMenuOpen] = useState(false);
    const [isDone, setIsDone] = useState(false);
    const [taskPriority, setTaskPriority] = useState("Null");
 
    const [date, setDate] = useState("0000-00-00");
    const [time, setTime] = useState("00:00");
+   const [title, setTitle] = useState("fill me");
    const [isDateEditing, setIsDateEditing] = useState(false);
    const [isTimeEditing, setIsTimeEditing] = useState(false);
+   const [isTitleEditing, setIsTitleEditing] = useState(false);
 
    const priorities = ["Green", "Yellow", "Red"];
 
@@ -18,6 +25,12 @@ const Task = () => {
    const dateInputRef = useRef<HTMLInputElement | null>(null);
    const timeSpanRef = useRef<HTMLSpanElement | null>(null);
    const timeInputRef = useRef<HTMLInputElement | null>(null);
+   const titleRef = useRef<HTMLHeadingElement | null>(null);
+   const titleInputRef = useRef<HTMLInputElement | null>(null);
+
+   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(event.target.value);
+   };
 
    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event.target.value);
@@ -47,6 +60,10 @@ const Task = () => {
       if (timeSpanRef.current?.contains(event.target)) setIsTimeEditing(true);
       else if (!timeInputRef.current?.contains(event.target))
          setIsTimeEditing(false);
+
+      if (titleRef.current?.contains(event.target)) setIsTitleEditing(true);
+      else if (!titleInputRef.current?.contains(event.target))
+         setIsTitleEditing(false);
    };
 
    useEffect(() => {
@@ -77,9 +94,24 @@ const Task = () => {
                type="checkbox"
                onClick={() => setIsDone(!isDone)}
             />
-            <h2 className={`${isDone ? "task_done" : ""} task_title`}>
-               Do something
-            </h2>
+            {isTitleEditing ? (
+               <input
+                  ref={titleInputRef}
+                  className="task_input"
+                  type="text"
+                  value={title}
+                  onChange={handleTitleChange}
+                  autoFocus
+               />
+            ) : (
+               <h2
+                  ref={titleRef}
+                  className={`${isDone ? "task_done" : ""} task_title`}
+               >
+                  {" "}
+                  {title}
+               </h2>
+            )}
          </div>
 
          <div className="task_rightSide">
@@ -97,7 +129,7 @@ const Task = () => {
                {isDateEditing ? (
                   <input
                      ref={dateInputRef}
-                     className="task_dateTimeInput"
+                     className="task_input"
                      type="date"
                      value={date}
                      onChange={handleDateChange}
@@ -114,7 +146,7 @@ const Task = () => {
                {isTimeEditing ? (
                   <input
                      ref={timeInputRef}
-                     className="task_dateTimeInput"
+                     className="task_input"
                      type="time"
                      value={time}
                      onChange={handleTimeChange}
@@ -129,6 +161,7 @@ const Task = () => {
             <button
                type="button"
                className="task_button task_deleteBtn"
+               onClick={() => removeTask(taskId)}
             ></button>
          </div>
       </section>

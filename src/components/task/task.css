@@ -124,7 +124,7 @@
    background-color: var(--highlight-black);
 }
 
-.task_dateTimeInput {
+.task_input {
    font-family: inherit;
    font-size: inherit;
    outline: none;
@@ -134,7 +134,7 @@
 }
 
 .task_dateTimeSpan:hover,
-.task_dateTimeInput:hover {
+.task_input:hover {
    cursor: pointer;
 }
 
