@@ -16,6 +16,10 @@
    transition: all 0.3s ease-out;
 }
 
+.tSectionBtn.active {
+   background-color: var(--highlight-black);
+}
+
 .tSectionBtn:hover {
    cursor: pointer;
    background-color: var(--highlight-black);

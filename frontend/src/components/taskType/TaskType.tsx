@@ -6,19 +6,27 @@ import { useEffect, useRef, useState } from "react";
 
 interface TaskSectionProps {
    tSectionId: string;
+   tSectionTitle: string;
+   isTSectionActive: boolean;
+   updateTSection: (tSectionId: string, newName: string) => void;
    removeTSection: (tSectionId: string) => void;
+   changeTSection: (tSectionId: string) => void;
 }
 
 const TaskType: React.FC<TaskSectionProps> = ({
    tSectionId,
+   tSectionTitle,
+   isTSectionActive,
+   updateTSection,
    removeTSection,
+   changeTSection,
 }) => {
-   const [sectionTitle, setSectionTitle] = useState("name");
+   let isReady = false;
+   const [sectionTitle, setSectionTitle] = useState(tSectionTitle);
    const [isTitleChanging, setTitleChanging] = useState(false);
    const titleSpanRef = useRef<HTMLSpanElement | null>(null);
-   const titleInputRef = useRef<HTMLInputElement | null>(null);
 
-   const validateTitleName = () => {
+   const validateTitleName = (): string => {
       if (!sectionTitle.trim()) setSectionTitle("name");
       return sectionTitle;
    };
@@ -29,30 +37,37 @@ const TaskType: React.FC<TaskSectionProps> = ({
 
    const handleTitleClick = (event: { target: any }) => {
       if (titleSpanRef.current?.contains(event.target)) setTitleChanging(true);
-      else if (!titleInputRef.current?.contains(event.target)) {
-         validateTitleName();
-         setTitleChanging(false);
-      }
+   };
+
+   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTitleChanging(false);
+      updateTSection(tSectionId, event.target.value);
    };
 
    useEffect(() => {
-      document.addEventListener("click", handleTitleClick);
+      if (isReady) {
+         document.addEventListener("click", handleTitleClick);
+      }
 
+      isReady = true;
       return () => {
          document.removeEventListener("click", handleTitleClick);
       };
    }, []);
 
    return (
-      <button className="tSectionBtn">
+      <button
+         className={` ${isTSectionActive ? "active" : ""} tSectionBtn`}
+         onClick={() => changeTSection(tSectionId)}
+      >
          <img src={selectSectionIcon} alt="select_section" />
          {isTitleChanging ? (
             <input
-               ref={titleInputRef}
                className="tSectionBtn_titleInput"
                type="text"
                value={sectionTitle}
                onChange={handleTitleChange}
+               onBlur={handleBlur}
                autoFocus
             />
          ) : (
