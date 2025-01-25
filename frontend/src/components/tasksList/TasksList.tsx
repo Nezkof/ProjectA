@@ -3,19 +3,12 @@ import "./tasksList.css";
 import addTaskIcon from "../../../public/tasksList/addTask.svg";
 import sideMenuBtn from "../../../public/tasksList/sideMenuButton-icon.svg";
 import Task from "../task/Task";
-import { useFetcher, useOutletContext } from "react-router-dom";
 import { TaskI } from "../task/Task";
-import { useSectionContext } from "../mainContext/MainContext";
-
-interface OutletContextType {
-   toggleSideMenu: () => void;
-}
+import { useSectionContext } from "../../contexts/MainContext";
 
 const TasksList = () => {
    const { activeSectionId } = useSectionContext();
-   const { toggleSideMenu } = useOutletContext<OutletContextType>();
-   const [isMenuOpen, setMenuOpen] = useState(true);
-
+   const { isMenuOpen, setMenuOpen } = useSectionContext();
    const [tasks, setTasks] = useState<TaskI[]>([]);
 
    //TODO
@@ -28,7 +21,7 @@ const TasksList = () => {
          setLoading(true);
          try {
             const response = await fetch(
-               `http://localhost:5050/tasks/${activeSectionId}`
+               `http://localhost:8000/tasks/${activeSectionId}`
             );
             if (!response.ok) {
                throw new Error(`Fetching error: ${response.statusText}`);
@@ -56,8 +49,10 @@ const TasksList = () => {
    };
 
    const addTask = async (name: string, dueDate: Date) => {
+      if (!activeSectionId) return;
+
       try {
-         const response = await fetch("http://localhost:5050/tasks", {
+         const response = await fetch("http://localhost:8000/tasks", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -82,7 +77,7 @@ const TasksList = () => {
 
    const deleteTask = async (id: string) => {
       try {
-         await fetch(`http://localhost:5050/tasks/${id}`, {
+         await fetch(`http://localhost:8000/tasks/${id}`, {
             method: "DELETE",
          });
          const newTasks = tasks.filter((el) => el._id !== id);
@@ -96,7 +91,7 @@ const TasksList = () => {
       console.log(updatedData);
 
       try {
-         const response = await fetch(`http://localhost:5050/tasks/${id}`, {
+         const response = await fetch(`http://localhost:8000/tasks/${id}`, {
             method: "PATCH",
             headers: {
                "Content-Type": "application/json",
@@ -121,8 +116,7 @@ const TasksList = () => {
    };
 
    const handleSideMenuButton = () => {
-      setMenuOpen((prev) => !prev);
-      toggleSideMenu();
+      setMenuOpen(!isMenuOpen);
    };
 
    const renderTasks = () =>

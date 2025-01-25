@@ -3,7 +3,7 @@ import "./sideMenu.css";
 import addSectionIcon from "../../../public/sideMenu/addSection-icon.svg";
 import TaskType from "../taskType/TaskType";
 import { useEffect, useState } from "react";
-import { useSectionContext } from "../mainContext/MainContext";
+import { useSectionContext } from "../../contexts/MainContext";
 
 interface TaskSection {
    _id: string;
@@ -11,7 +11,10 @@ interface TaskSection {
 }
 
 const SideMenu = () => {
+   let isReady = true;
    const { activeSectionId, setActiveSectionId } = useSectionContext();
+   const { isMenuOpen } = useSectionContext();
+   const { userId } = useSectionContext();
    const [tasksSections, setTaskSections] = useState<TaskSection[]>([]);
    //TODO
    //LOADING SCREEN
@@ -27,33 +30,46 @@ const SideMenu = () => {
 
    // Tasks sections fetching
    useEffect(() => {
-      const fetchTaskSections = async () => {
-         setLoading(true);
-         try {
-            const response = await fetch("http://localhost:5050/taskSections");
-            if (!response.ok) {
-               throw new Error(`Fetching error: ${response.statusText}`);
-            }
-            const data = await response.json();
-            setTaskSections(data);
-         } catch (error: any) {
-            console.error(error.message);
-         } finally {
-            setLoading(false);
-         }
-      };
+      if (isReady) {
+         //console.log("userId:", userId);
 
-      fetchTaskSections();
-   }, []);
+         if (!userId) return;
+
+         const fetchTaskSections = async () => {
+            setLoading(true);
+            try {
+               const response = await fetch(
+                  `http://localhost:8000/taskSections/${userId}`
+               );
+               if (!response.ok) {
+                  throw new Error(`Fetching error: ${response.statusText}`);
+               }
+               const data = await response.json();
+               setTaskSections(data);
+            } catch (error: any) {
+               console.error(error.message);
+            } finally {
+               setLoading(false);
+            }
+         };
+
+         fetchTaskSections();
+      }
+
+      isReady = !isReady;
+   }, [userId]);
 
    // Tasks sections adding
    const addTaskType = async () => {
+      if (userId.trim() === "") return;
+
       const newSection = {
          name: `new Section`,
+         ownerId: userId,
       };
 
       try {
-         const response = await fetch("http://localhost:5050/taskSections", {
+         const response = await fetch("http://localhost:8000/taskSections", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -75,7 +91,7 @@ const SideMenu = () => {
    // Tasks sections removing
    const removeTaskSection = async (id: string) => {
       try {
-         await fetch(`http://localhost:5050/taskSections/${id}`, {
+         await fetch(`http://localhost:8000/taskSections/${id}`, {
             method: "DELETE",
          });
          const newSections = tasksSections.filter((el) => el._id !== id);
@@ -89,7 +105,7 @@ const SideMenu = () => {
    const updateTaskSection = async (tSectionId: string, newName: string) => {
       try {
          const response = await fetch(
-            `http://localhost:5050/taskSections/${tSectionId}`,
+            `http://localhost:8000/taskSections/${tSectionId}`,
             {
                method: "PATCH",
                headers: {
@@ -130,13 +146,17 @@ const SideMenu = () => {
       ));
 
    return (
-      <aside className="sideMenu_container" id="sideMenu">
-         <button className="sideMenu_addBtn" onClick={addTaskType}>
-            <img src={addSectionIcon} alt="add_section" />
-            Add
-         </button>
-         <div className="sideMenu_wrapper">{renderTasksTypes()}</div>
-      </aside>
+      <>
+         {isMenuOpen ? (
+            <aside className="sideMenu_container" id="sideMenu">
+               <button className="sideMenu_addBtn" onClick={addTaskType}>
+                  <img src={addSectionIcon} alt="add_section" />
+                  Add
+               </button>
+               <div className="sideMenu_wrapper">{renderTasksTypes()}</div>
+            </aside>
+         ) : null}
+      </>
    );
 };
 

@@ -25,6 +25,35 @@
    font-size: 0.6875em;
 }
 
+.header_profileBtn {
+   color: white;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 100%;
+   width: 56px;
+   height: 56px;
+   border: none;
+   background-color: var(--base-black);
+   outline: none;
+   transition: all 0.3s ease-out;
+}
+
+.header_profileBtn:hover {
+   filter: brightness(80%);
+   cursor: pointer;
+}
+
+.header_userAvatar-noUser:hover {
+   border: 1px solid var(--base-yellow);
+}
+
+.header_userAvatar {
+   width: 56px;
+   height: 56px;
+   border-radius: 50%;
+}
+
 @media (max-width: 1440px) {
    .header {
       padding-left: 2vw;

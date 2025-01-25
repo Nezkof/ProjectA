@@ -45,7 +45,6 @@ tListsRouter.post("/", async (req, res) => {
       const collection = await db.collection("taskLists");
       const result = await collection.insertOne(newTask);
 
-      // Возвращаем созданную задачу
       res.status(201).json({
          _id: result.insertedId,
          ...newTask,
