@@ -1,0 +1,22 @@
+<svg width="37" height="57" viewBox="0 0 37 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_89_15)">
+<path d="M18.5 4L33 28.5L18.5 53L4 28.5L18.5 4Z" fill="url(#paint0_angular_89_15)" shape-rendering="crispEdges"/>
+</g>
+<path d="M25.75 16.25L33 28.5L25.75 40.75L18.5 28.5L25.75 16.25Z" fill="#FFFF7B" fill-opacity="0.3"/>
+<defs>
+<filter id="filter0_d_89_15" x="0" y="0" width="37" height="57" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_89_15"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_89_15" result="shape"/>
+</filter>
+<radialGradient id="paint0_angular_89_15" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(18.5 28.5) rotate(59.3493) scale(15.6924 11.9659)">
+<stop stop-color="#FFFFA9" stop-opacity="0"/>
+<stop offset="1" stop-color="#FFFF7B" stop-opacity="0.8"/>
+</radialGradient>
+</defs>
+</svg>

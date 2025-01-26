@@ -8,6 +8,8 @@ import tListsRouter from "./routes/taskLists.js";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 
+import fetch from "node-fetch";
+
 import GoogleStrategy from "passport-google-oauth20";
 
 const PORT = process.env.PORT || 8000;
@@ -30,7 +32,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use("/", authRouter);
 
 passport.use(
@@ -45,6 +46,21 @@ passport.use(
       }
    )
 );
+
+app.get("/proxy-avatar", async (req, res) => {
+   const imageUrl = req.query.url;
+
+   try {
+      const response = await fetch(imageUrl);
+      const contentType = response.headers.get("content-type");
+      const buffer = await response.buffer();
+
+      res.setHeader("Content-Type", contentType);
+      res.send(buffer);
+   } catch (err) {
+      res.status(500).send("Failed to load avatar");
+   }
+});
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));

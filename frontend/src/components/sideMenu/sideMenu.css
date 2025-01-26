@@ -15,7 +15,6 @@
    overflow-y: auto;
    overflow-x: hidden;
    max-height: 100%;
-   padding-right: 5px;
    -webkit-overflow-scrolling: touch;
    touch-action: auto;
 }

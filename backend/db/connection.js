@@ -9,6 +9,8 @@ const client = new MongoClient(uri, {
    },
 });
 
+console.log("test");
+
 try {
    await client.connect();
    await client.db("admin").command({ ping: 1 });

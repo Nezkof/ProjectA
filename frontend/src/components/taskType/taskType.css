@@ -29,6 +29,10 @@
    margin-left: auto;
 }
 
+.tSectionBtn_deleteIcon:hover {
+   filter: brightness(80%);
+}
+
 .tSectionBtn_titleInput {
    font-family: inherit;
    font-size: inherit;

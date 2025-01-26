@@ -1,7 +1,7 @@
 import "./taskType.css";
 
-import deleteSectionIcon from "../../../public/sideMenu/deleteSection-icon.svg";
-import selectSectionIcon from "../../../public/sideMenu/selectSection-icon.svg";
+import deleteSectionIcon from "/sideMenu/deleteSection-icon.svg";
+import selectSectionIcon from "/sideMenu/selectSection-icon.svg";
 import { useEffect, useRef, useState } from "react";
 
 interface TaskSectionProps {
@@ -21,7 +21,7 @@ const TaskType: React.FC<TaskSectionProps> = ({
    removeTSection,
    changeTSection,
 }) => {
-   let isReady = false;
+   let toRender = useRef(true);
    const [sectionTitle, setSectionTitle] = useState(tSectionTitle);
    const [isTitleChanging, setTitleChanging] = useState(false);
    const titleSpanRef = useRef<HTMLSpanElement | null>(null);
@@ -45,14 +45,15 @@ const TaskType: React.FC<TaskSectionProps> = ({
    };
 
    useEffect(() => {
-      if (isReady) {
+      if (toRender.current) {
          document.addEventListener("click", handleTitleClick);
+
+         return () => {
+            document.removeEventListener("click", handleTitleClick);
+         };
       }
 
-      isReady = true;
-      return () => {
-         document.removeEventListener("click", handleTitleClick);
-      };
+      toRender.current = false;
    }, []);
 
    return (

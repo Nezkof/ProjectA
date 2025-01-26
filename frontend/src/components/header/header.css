@@ -8,17 +8,22 @@
 .header_content {
    display: flex;
    justify-content: space-between;
-   padding: 0.9375em 1.172vw 0.9375em 1.172vw;
+   padding: 0.9375em 1.172vw 0.9375em 2vw;
    border-radius: 0 0 0.46em 0.46em;
    background-color: var(--base-black);
    box-shadow: var(--box-shadow);
 }
 
-.header_pageName,
 .header_userInfo {
    display: inherit;
    align-items: center;
    gap: 20px;
+}
+
+.header_pageName {
+   display: inherit;
+   align-items: center;
+   gap: 10px;
 }
 
 .header_dateTime {
@@ -37,15 +42,21 @@
    background-color: var(--base-black);
    outline: none;
    transition: all 0.3s ease-out;
+   box-shadow: var(--box-shadow);
 }
 
 .header_profileBtn:hover {
-   filter: brightness(80%);
+   box-shadow: 0px 0px 5px var(--base-yellow);
    cursor: pointer;
 }
 
-.header_userAvatar-noUser:hover {
-   border: 1px solid var(--base-yellow);
+.header_profileBtn.highlight {
+   box-shadow: 0px 0px 5px var(--base-yellow);
+}
+
+.header_logo {
+   height: 56px;
+   width: auto;
 }
 
 .header_userAvatar {

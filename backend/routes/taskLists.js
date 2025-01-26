@@ -37,7 +37,7 @@ tListsRouter.post("/", async (req, res) => {
       const newTask = {
          name,
          sectionId: new ObjectId(sectionId),
-         dueDate: new Date(dueDate),
+         dueDate: dueDate,
          priority: priority ?? 0,
          isCompleted: isCompleted ?? false,
       };

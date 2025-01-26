@@ -49,8 +49,9 @@ const Task: React.FC<TaskProps> = ({
 
    useEffect(() => {
       if (isReady) {
-         setDate(fromDateToString(_dueDate));
-         setTime(fromTimeToString(_dueDate));
+         const [date, time] = _dueDate.split("|");
+         setDate(date);
+         setTime(time);
 
          document.addEventListener("click", handleNameClick);
          document.addEventListener("click", handlePriorityMenuBlur);
@@ -66,25 +67,6 @@ const Task: React.FC<TaskProps> = ({
          document.removeEventListener("click", handleTimeClick);
       };
    }, []);
-
-   const fromDateToString = (isoDate: string): string => {
-      const [datePart, timePart] = isoDate.split("T");
-      const [year, month, day] = datePart.split("-").map(String);
-      return `${day}.${month}.${year}`;
-   };
-
-   const fromTimeToString = (isoDate: string): string => {
-      const [datePart, timePart] = isoDate.split("T");
-      const [hours, minutes] = timePart.split(":").map(String);
-      return `${hours}:${minutes}`;
-   };
-
-   const convertToISODate = (): string => {
-      const [year, month, day] = date.split("-").map(Number);
-      const [hours, minutes] = time.split(":").map(Number);
-      const isoDate = `${year}-${month}-${day}T${hours}:${minutes}`;
-      return isoDate;
-   };
 
    const pushUpdatedInfo = (updates: Partial<TaskI>) => {
       const updatedData: any = {
@@ -116,6 +98,11 @@ const Task: React.FC<TaskProps> = ({
    const handleNameBlur = () => {
       setIsNameEditing(false);
       pushUpdatedInfo({ name: name });
+   };
+
+   const validateName = () => {
+      if (!name.trim()) setName("task");
+      return name;
    };
 
    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,15 +141,17 @@ const Task: React.FC<TaskProps> = ({
 
    const handleDateBlur = () => {
       setIsDateEditing(false);
-      pushUpdatedInfo({ dueDate: convertToISODate() });
+      let formatedDate = date.split("-").reverse().join(".");
+      setDate(formatedDate);
+      pushUpdatedInfo({ dueDate: formatTimeDate(formatedDate, time) });
    };
 
    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setDate(event.target.value);
    };
 
-   const formatDate = (date: string) => {
-      return date.split("-").reverse().join(".");
+   const formatTimeDate = (date: string, time: string) => {
+      return `${date}|${time}`;
    };
 
    const handleTimeClick = (event: { target: any }) => {
@@ -171,7 +160,7 @@ const Task: React.FC<TaskProps> = ({
 
    const handleTimeBlur = () => {
       setIsTimeEditing(false);
-      pushUpdatedInfo({ dueDate: convertToISODate() });
+      pushUpdatedInfo({ dueDate: formatTimeDate(date, time) });
    };
 
    const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -201,7 +190,7 @@ const Task: React.FC<TaskProps> = ({
                   ref={nameRef}
                   className={`${isCompleted ? "task_done" : ""} task_title`}
                >
-                  {name}
+                  {validateName()}
                </h2>
             )}
          </div>
@@ -230,7 +219,7 @@ const Task: React.FC<TaskProps> = ({
                   />
                ) : (
                   <span className="task_dateTimeSpan" ref={dateSpanRef}>
-                     {formatDate(date)}
+                     {date}
                   </span>
                )}
 

@@ -1,46 +1,63 @@
 import { useEffect, useState } from "react";
 import "./tasksList.css";
-import addTaskIcon from "../../../public/tasksList/addTask.svg";
-import sideMenuBtn from "../../../public/tasksList/sideMenuButton-icon.svg";
+import addTaskIcon from "/tasksList/addTask.svg";
+import sideMenuBtn from "/tasksList/sideMenuButton-icon.svg";
 import Task from "../task/Task";
 import { TaskI } from "../task/Task";
 import { useSectionContext } from "../../contexts/MainContext";
 
 const TasksList = () => {
-   const { activeSectionId } = useSectionContext();
+   const { activeSectionId, userId, setActiveSectionId } = useSectionContext();
    const { isMenuOpen, setMenuOpen } = useSectionContext();
    const [tasks, setTasks] = useState<TaskI[]>([]);
 
-   //TODO
-   //LOADING SCREEN
-   const [loading, setLoading] = useState<boolean>(false);
+   const handleSideMenuButton = () => {
+      setMenuOpen(!isMenuOpen);
+   };
+
+   const highlightLoginButton = () => {
+      const loginButton = document.getElementById("profileButton");
+      loginButton?.classList.toggle("highlight");
+
+      setTimeout(() => loginButton?.classList.toggle("highlight"), 300);
+   };
+
+   // Tasks fetching
+   const fetchData = async (url: string, options: RequestInit = {}) => {
+      try {
+         const response = await fetch(`http://localhost:8000${url}`, options);
+         if (!response.ok)
+            throw new Error(`Fetching error: ${response.statusText}`);
+         return await response.json();
+      } catch (error: any) {
+         console.error(error.message);
+      }
+   };
 
    useEffect(() => {
-      const fetchTaskLists = async () => {
-         if (!activeSectionId) return;
-         setLoading(true);
-         try {
-            const response = await fetch(
-               `http://localhost:8000/tasks/${activeSectionId}`
-            );
-            if (!response.ok) {
-               throw new Error(`Fetching error: ${response.statusText}`);
-            }
-            const data: TaskI[] = await response.json();
-            setTasks(data);
-         } catch (error: any) {
-            console.error(error.message);
-         } finally {
-            setLoading(false);
-         }
-      };
+      if (!activeSectionId) {
+         setTasks([]);
+         return;
+      }
 
-      fetchTaskLists();
+      fetchData(`/tasks/${activeSectionId}`).then((data) => {
+         setTasks(data);
+      });
    }, [activeSectionId]);
 
+   // Tasks adding
    const handleAddTask = async () => {
       const name = "name";
-      const dueDate = new Date();
+      const date = new Date();
+      const dueDate = `${date.getDate().toString().padStart(2, "0")}.${(
+         date.getMonth() + 1
+      )
+         .toString()
+         .padStart(2, "0")}.${date.getFullYear()}|${date
+         .getHours()
+         .toString()
+         .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+
       const newTask = await addTask(name, dueDate);
 
       if (newTask) {
@@ -48,11 +65,27 @@ const TasksList = () => {
       }
    };
 
-   const addTask = async (name: string, dueDate: Date) => {
-      if (!activeSectionId) return;
+   const addTask = async (name: string, dueDate: string) => {
+      if (!activeSectionId) {
+         if (!userId) {
+            highlightLoginButton();
+            return;
+         }
 
-      try {
-         const response = await fetch("http://localhost:8000/tasks", {
+         const newSection = {
+            name: `new Section`,
+            ownerId: userId,
+         };
+
+         const data = await fetchData("/taskSections", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newSection),
+         });
+
+         setActiveSectionId(data._id);
+      } else {
+         const newTask = await fetchData("/tasks", {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
@@ -64,17 +97,11 @@ const TasksList = () => {
             }),
          });
 
-         if (!response.ok) {
-            throw new Error(`Adding error: ${response.statusText}`);
-         }
-
-         const newTask = await response.json();
          return newTask;
-      } catch (error: any) {
-         console.error(error.message);
       }
    };
 
+   // Tasks deleting
    const deleteTask = async (id: string) => {
       try {
          await fetch(`http://localhost:8000/tasks/${id}`, {
@@ -87,36 +114,21 @@ const TasksList = () => {
       }
    };
 
+   // Tasks updating
    const updateTask = async (id: string, updatedData: TaskI) => {
-      console.log(updatedData);
+      const updatedTask = await fetchData(`/tasks/${id}`, {
+         method: "PATCH",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify(updatedData),
+      });
 
-      try {
-         const response = await fetch(`http://localhost:8000/tasks/${id}`, {
-            method: "PATCH",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedData),
-         });
-
-         if (!response.ok) {
-            throw new Error(`Updating error: ${response.statusText}`);
-         }
-
-         const updatedTask = await response.json();
-
-         setTasks((prevTasks) =>
-            prevTasks.map((task) =>
-               task._id === id ? { ...task, ...updatedTask } : task
-            )
-         );
-      } catch (error: any) {
-         console.error(error.message);
-      }
-   };
-
-   const handleSideMenuButton = () => {
-      setMenuOpen(!isMenuOpen);
+      setTasks((prevTasks) =>
+         prevTasks.map((task) =>
+            task._id === id ? { ...task, ...updatedTask } : task
+         )
+      );
    };
 
    const renderTasks = () =>

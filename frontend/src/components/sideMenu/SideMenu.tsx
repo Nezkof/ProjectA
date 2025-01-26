@@ -1,6 +1,6 @@
 import "./sideMenu.css";
 
-import addSectionIcon from "../../../public/sideMenu/addSection-icon.svg";
+import addSectionIcon from "/sideMenu/addSection-icon.svg";
 import TaskType from "../taskType/TaskType";
 import { useEffect, useState } from "react";
 import { useSectionContext } from "../../contexts/MainContext";
@@ -11,14 +11,16 @@ interface TaskSection {
 }
 
 const SideMenu = () => {
-   let isReady = true;
-   const { activeSectionId, setActiveSectionId } = useSectionContext();
-   const { isMenuOpen } = useSectionContext();
-   const { userId } = useSectionContext();
+   const { activeSectionId, setActiveSectionId, isMenuOpen, userId } =
+      useSectionContext();
    const [tasksSections, setTaskSections] = useState<TaskSection[]>([]);
-   //TODO
-   //LOADING SCREEN
-   const [loading, setLoading] = useState<boolean>(false);
+
+   const highlightLoginButton = () => {
+      const loginButton = document.getElementById("profileButton");
+      loginButton?.classList.toggle("highlight");
+
+      setTimeout(() => loginButton?.classList.toggle("highlight"), 300);
+   };
 
    const handleSectionChange = (id: string) => {
       setActiveSectionId(id);
@@ -28,64 +30,44 @@ const SideMenu = () => {
       setActiveSectionId(tasksSections[0]?._id);
    }, [tasksSections.length]);
 
+   const fetchData = async (url: string, options: RequestInit = {}) => {
+      try {
+         const response = await fetch(`http://localhost:8000${url}`, options);
+         if (!response.ok)
+            throw new Error(`Fetching error: ${response.statusText}`);
+         return await response.json();
+      } catch (error: any) {
+         console.error(error.message);
+      }
+   };
+
    // Tasks sections fetching
    useEffect(() => {
-      if (isReady) {
-         //console.log("userId:", userId);
+      if (!userId) return;
 
-         if (!userId) return;
-
-         const fetchTaskSections = async () => {
-            setLoading(true);
-            try {
-               const response = await fetch(
-                  `http://localhost:8000/taskSections/${userId}`
-               );
-               if (!response.ok) {
-                  throw new Error(`Fetching error: ${response.statusText}`);
-               }
-               const data = await response.json();
-               setTaskSections(data);
-            } catch (error: any) {
-               console.error(error.message);
-            } finally {
-               setLoading(false);
-            }
-         };
-
-         fetchTaskSections();
-      }
-
-      isReady = !isReady;
-   }, [userId]);
+      fetchData(`/taskSections/${userId}`).then((data) => {
+         setTaskSections(data);
+      });
+   }, [userId, activeSectionId]);
 
    // Tasks sections adding
-   const addTaskType = async () => {
-      if (userId.trim() === "") return;
+   const createTaskSection = async () => {
+      if (!userId) {
+         highlightLoginButton();
+         return;
+      }
 
       const newSection = {
          name: `new Section`,
          ownerId: userId,
       };
 
-      try {
-         const response = await fetch("http://localhost:8000/taskSections", {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newSection),
-         });
-
-         if (!response.ok) {
-            throw new Error(`Adding error: ${response.statusText}`);
-         }
-
-         const data = await response.json();
-         setTaskSections((prevSections) => [...prevSections, data]);
-      } catch (error: any) {
-         console.error(error.message);
-      }
+      const data = await fetchData("/taskSections", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(newSection),
+      });
+      setTaskSections((prevSections) => [...prevSections, data]);
    };
 
    // Tasks sections removing
@@ -94,8 +76,9 @@ const SideMenu = () => {
          await fetch(`http://localhost:8000/taskSections/${id}`, {
             method: "DELETE",
          });
-         const newSections = tasksSections.filter((el) => el._id !== id);
-         setTaskSections(newSections);
+         setTaskSections((prevSections) =>
+            prevSections.filter((section) => section._id !== id)
+         );
       } catch (err) {
          console.error(err);
       }
@@ -103,22 +86,12 @@ const SideMenu = () => {
 
    // Tasks section updating
    const updateTaskSection = async (tSectionId: string, newName: string) => {
-      try {
-         const response = await fetch(
-            `http://localhost:8000/taskSections/${tSectionId}`,
-            {
-               method: "PATCH",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-               body: JSON.stringify({ name: newName }),
-            }
-         );
-
-         if (!response.ok) {
-            throw new Error(`Updating error: ${response.statusText}`);
-         }
-
+      const data = await fetchData(`/taskSections/${tSectionId}`, {
+         method: "PATCH",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ name: newName }),
+      });
+      if (data) {
          setTaskSections((prevSections) =>
             prevSections.map((section) =>
                section._id === tSectionId
@@ -126,8 +99,6 @@ const SideMenu = () => {
                   : section
             )
          );
-      } catch (error: any) {
-         console.error(error.message);
       }
    };
 
@@ -149,7 +120,7 @@ const SideMenu = () => {
       <>
          {isMenuOpen ? (
             <aside className="sideMenu_container" id="sideMenu">
-               <button className="sideMenu_addBtn" onClick={addTaskType}>
+               <button className="sideMenu_addBtn" onClick={createTaskSection}>
                   <img src={addSectionIcon} alt="add_section" />
                   Add
                </button>
