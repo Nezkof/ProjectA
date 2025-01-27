@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useSectionContext } from "../../contexts/MainContext";
 import Cookies from "js-cookie";
